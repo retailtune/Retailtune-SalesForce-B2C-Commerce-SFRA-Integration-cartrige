@@ -1,0 +1,65 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+
+<isinclude template="/components/modules" sf-toolkit="off" />
+
+<!DOCTYPE html>
+<html lang="${require('dw/util/Locale').getLocale(request.getLocale()).getLanguage()}">
+
+<head>
+    <isinclude template="/common/htmlHead" />
+    <isif condition="${pdict.canonicalUrl}">
+        <link rel="canonical" href="${pdict.canonicalUrl}" />
+    </isif>
+    <isactivedatahead/>
+    <isinclude template="/components/schema" />
+
+    <iscomment> RT SCRIPT INLCUDE </iscomment>
+    <script>
+            window.history.pushState({},"", '${pdict.config.urlred}');
+    </script>
+    <isif condition="${pdict.config.result.head.content}">
+        <isprint value="${pdict.config.result.head.content}" encoding="off" />
+    </isif>
+    <isif condition="${pdict.config.result.head.links.sources}">
+        <isloop items="${pdict.config.result.head.links.sources}" var="item" status="loopstatus">
+            <link rel="${item.rel}" href="${item.href}" />
+        </isloop>
+    </isif>
+    <isif condition="${pdict.config.result.head.scripts.sources}">
+        <isloop items="${pdict.config.result.head.scripts.sources}" var="item" status="loopstatus">
+            <isif condition="${!item.content}">
+                <isprint value="${pdict.config.result.head.scripts.asString}" encoding="off"/>
+                <isbreak/>
+            </isif>
+        </isloop>
+    </isif>
+    <iscomment> END RT SCRIPT INLCUDE </iscomment>
+
+</head>
+
+<body>
+    ${dw.system.HookMgr.callHook('app.template.beforeHeader', 'beforeHeader', pdict) || ''}
+
+    <div class="page" data-action="${pdict.action}" data-querystring="${pdict.queryString}">
+        <isinclude template="/components/header/pageHeader" />
+        <div role="main" id="maincontent">
+            <isif condition="${pdict.config.result.body.content}">
+                <isprint value="${pdict.config.result.body.content}" encoding="off" />
+            </isif>
+            <iscomment> RT BODY INLCUDE </iscomment>
+            <isif condition="${pdict.config.result.body.scripts}">
+               <isprint value="${pdict.config.result.body.scripts.asString}" encoding="off" />
+            </isif>
+            <iscomment> END RT BODY INLCUDE </iscomment>
+
+        </div>
+        <isinclude template="/components/footer/pageFooter" />
+    </div>
+    <div class="error-messaging"></div>
+    <div class="modal-background"></div>
+    <iscontentasset aid="cookie_hint" />
+    ${dw.system.HookMgr.callHook('app.template.afterFooter', 'afterFooter', pdict) || ''}
+    <isinclude url="${URLUtils.url('ConsentTracking-Check')}" />
+</body>
+
+</html>
