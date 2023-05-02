@@ -1,0 +1,21 @@
+{
+    "root": true,
+    "ecmaVersion": 5,
+    "globals": {
+        "dw": true,
+        "module": true,
+        "require": true
+    },
+    "plugins": [
+        "only-var"
+    ],
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1, "VariableDeclarator": 1 }],
+        "max-len": ["error", 100],
+        "no-undef": 2,
+        "only-var/only-var": "error",
+        "require-jsdoc": "error",
+        "semi": "error",
+        "valid-jsdoc": ["error", { "preferType": { "Boolean": "boolean", "Number": "number", "object": "Object", "String": "string" }, "requireReturn": false}]
+    }
+}

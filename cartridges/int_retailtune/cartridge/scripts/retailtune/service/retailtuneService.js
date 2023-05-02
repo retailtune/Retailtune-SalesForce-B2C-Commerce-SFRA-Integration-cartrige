@@ -6,7 +6,8 @@ var Site = require('dw/system/Site');
 
 var __RetailtuneService = {
     SERVICE: {
-        rtEndpoint: 'int_retailtune.RTEndpoint'
+        rtEndpoint: 'int_retailtune.RTEndpoint',
+        rtSitemap: 'int_retailtune.RTSitemap',
     },
 
     getService: function (service) {

@@ -1,0 +1,12 @@
+node_modules/
+# compiled code
+cartridges/int_retailtune/cartridge/static/
+# dev
+.vscode/
+.history
+*.iml
+.idea
+dw.json
+.DS_Store
+*.DS_Store 
+.DS_Store

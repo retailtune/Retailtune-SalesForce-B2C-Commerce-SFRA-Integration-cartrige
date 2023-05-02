@@ -4,6 +4,7 @@ var server = require('server');
 var retailtuneHelpers = require('~/cartridge/scripts/retailtune/retailtuneHelpers');
 var Logger = require('dw/system/Logger');
 var URLUtils = require('dw/web/URLUtils');
+var XMLStreamWriter = require('dw/io/XMLStreamWriter');
 
 server.get('Stores', function (req, res, next) { 
     
@@ -32,6 +33,37 @@ server.get('Stores', function (req, res, next) {
         Logger.getLogger("Retailtune", "Stores").error("Error occurred", e);
     }    res.render('retailtune/stores/stores', { config: configObj });  
     next();
+});
+
+server.get('Sitemap', function (req, res, next) { 
+    
+    Logger.getLogger("Retailtune", "Sitemap-GET").info("Retailltune Store Locator - Sitemap request");
+    
+    var resultObj = null;   
+    
+    var language = req.querystring.locale || "it"; 
+    if (language.indexOf("/") > -1){
+        language = language.substring(0,language.indexOf("/"));
+    }
+    var locale = req.locale.id;
+    
+    try {
+        resultObj = retailtuneHelpers.getSitemapFromAPI(language, locale);
+    } catch (e) {
+        Logger.getLogger("Retailtune", "Sitemap").error("Error occurred", e);
+    }    
+
+    var xmlSitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    xmlSitemap += resultObj.content;
+    
+    try {
+        res.setContentType("text/xml")
+        res.print(xmlSitemap);
+    } catch (e) {
+        throw new Error(e.message + '\n\r' + e.stack, e.fileName, e.lineNumber);
+    }
+    
+    return next();
 });
 
 
