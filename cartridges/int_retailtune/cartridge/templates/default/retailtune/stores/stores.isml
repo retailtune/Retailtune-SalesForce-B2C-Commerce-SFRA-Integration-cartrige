@@ -15,7 +15,7 @@
 
     <iscomment> RT SCRIPT INLCUDE </iscomment>
     <script>
-            window.history.pushState({},"", '${pdict.config.urlred}');
+            window.history.pushState({},"", '${pdict.config.urlred}'.replaceAll("&amp;", "&"));
     </script>
     <isif condition="${pdict.config.result.head.content}">
         <isprint value="${pdict.config.result.head.content}" encoding="off" />
