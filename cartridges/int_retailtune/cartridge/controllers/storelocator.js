@@ -5,16 +5,18 @@ var retailtuneHelpers = require('~/cartridge/scripts/retailtune/retailtuneHelper
 var Logger = require('dw/system/Logger');
 var URLUtils = require('dw/web/URLUtils');
 var XMLStreamWriter = require('dw/io/XMLStreamWriter');
+var Locale = require('dw/util/Locale');
 
 server.get('Stores', function (req, res, next) { 
     
-    Logger.getLogger("Retailtune", "Stores-GET").info("Retialtune Store Locator");
+    Logger.getLogger("Retailtune", "Stores-GET").info("Retailtune Store Locator");
     
     var configObj = {}; 
 
     var rtPipeline = String(dw.system.Site.current.getCustomPreferenceValue('retailtune_pipeline_name')) || "stores";
-    
-    var locale = req.querystring.locale || "it"; 
+
+    var currentLocale = Locale.getLocale(req.locale.id);
+    var locale = req.querystring.locale || currentLocale.ID; 
     if (locale.indexOf("/") > -1){
         locale = locale.substring(0,locale.indexOf("/"));
     }
